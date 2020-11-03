@@ -2,10 +2,8 @@
 
 size_t ft_strlcpy(char *dst, const char *src, size_t dstsize)
 {
-	char *new_dst;
 	const char *new_src;
 
-	new_dst = dst;
 	new_src = src;
 	if (dst == NULL && src == NULL)
 		return (0);
