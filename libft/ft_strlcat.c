@@ -23,3 +23,12 @@ size_t	ft_strlcat(char *dst, const char *src, size_t dstsize)
 	//dst[ft_strlen(dst)] = '\0'; // эээээээээээ, надо прочекать еще раз, но все работает
 	return (dst_len + ft_strlen(src));
 }
+
+// int main()
+// {
+//     char str[9] = "hey";
+// 	printf("%d\n", ft_strlcat(str, "aaaaaaaa", 9));
+// 	printf("%s", str);
+
+// 	return (0);
+// }
