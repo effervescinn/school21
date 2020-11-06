@@ -2,12 +2,12 @@
 
 void ft_putstr_fd(char *s, int fd)
 {
-    if (fd != NULL)
-    {
-        while(*s)
-        {
-            write(fd, s, 1);
-            s++;
-        }
-    }
+	if (fd)
+	{
+		while (*s)
+		{
+			write(fd, s, 1);
+			s++;
+		}
+	}
 }

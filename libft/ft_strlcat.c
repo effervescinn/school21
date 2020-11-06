@@ -24,11 +24,11 @@ size_t	ft_strlcat(char *dst, const char *src, size_t dstsize)
 	return (dst_len + ft_strlen(src));
 }
 
-// int main()
-// {
-//     char str[9] = "hey";
-// 	printf("%d\n", ft_strlcat(str, "aaaaaaaa", 9));
-// 	printf("%s", str);
 
-// 	return (0);
+// int main (void)
+// {
+//   char a[25] = "1234";
+//   char b[7] = "qwerty";
+//   printf("%lu\n", strlcat(a, b, 4));
+//   printf("%s\n", a);
 // }
