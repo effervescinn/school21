@@ -1,77 +1,80 @@
 #include "libft.h"
 
-static int count_c(char const *s, char c)
+static int count_words(char const *s, char c) //считаем количество слов
 {
-	int c_q;
+	int w_q;
 
-	c_q = 0;
+	w_q = 0;
 	while (*s)
 	{
-		while (*s != c)
-			s++;
-		if (*s == c)
+		while (*s == c)
 		{
-			while (*s == c)
-				s++;
-			c_q++;
+			s++;
+			if (*s == '\0')
+				return (w_q);
 		}
+		while (*s != c)
+		{
+			s++;
+			if (*s == '\0')
+				return (++w_q);
+		}
+		w_q++;
 		s++;
 	}
-	return (c_q);
+	return (w_q);
 }
 
-static int	*count_item_len(char const *s, char c, int *item_len)
+void push_strs(const char *s, char c, char **arr, int w_q) //записываем строки в массив
 {
-	int i;
-	int len;
+	char *w_start;
+	int w_len;
 
-	i = 0;
-	len = 0;
-	while (*s)
+	while (*s && w_q--)
 	{
-		while (*s == c && *s)
+		w_len = 0;
+		while (*s == 'c' && *s)
 			s++;
-		while (*s != c && *s)
+		if (*s)
+			w_start = (char *)s;
+		while (*s != 'c' && *s)
 		{
+			w_len++;
 			s++;
-			len++;
 		}
-		item_len[i] = len;
-		len = 0;
-		i++;
+		if ((*arr = (char *)malloc(w_len * sizeof(char) + sizeof(char))))
+		{
+			ft_strlcpy(*arr, w_start, w_len + 1);
+			arr++;
+		}
 	}
-	return (item_len);
+	*arr = NULL;
 }
 
-// char	**ft_split(char const *s, char c)
-// {
-// 	char **arr;
-// 	int i;
-// 	int j;
-// 	int *item_len;
+char **ft_split(char const *s, char c)
+{
+	char **arr;
+	int w_q;
 
-// 	i = 0;
-// 	j = 0;
-// 	if ((arr = (char **)malloc(count_c(s, c) * sizeof(char*) + 2 * sizeof(char*))))
-// 	{
-// 		item_len = (int*)malloc(count_c(s, c) * sizeof(int) + sizeof(int))
-
-// 		while (*s)
-// 		{
-
-// 		}
-// 	}
-// }
+	w_q = count_words(s, c); //считаем количество слов чтобы выделить нужое количество памяти
+	if ((arr = (char **)malloc(w_q * sizeof(char *) + sizeof(char *))))
+	{
+		push_strs(s, c, arr, w_q);
+		return (arr);
+	}
+	return (NULL);
+}
 
 int main()
 {
-	int arr[3];
-	
+	char **test;
 	int i;
-	count_item_len("yyfgdfgdfghyyyldyyy", 'y', arr);
+
+	test = ft_split("cheycccd", 'c'); //не работает без разделителей
 	for (i = 0; i < 3; i++)
 	{
-		printf("%d\n", arr[i]);
+		printf("%s\n", test[i]);
 	}
+	//printf("%s", test[0]);
 	return 0;
 }
