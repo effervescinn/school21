@@ -25,7 +25,7 @@ static int count_words(char const *s, char c) //считаем количест�
 	return (w_q);
 }
 
-void push_strs(const char *s, char c, char **arr, int w_q) //записываем строки в массив
+static void push_strs(const char *s, char c, char **arr, int w_q) //записываем строки в массив
 {
 	char *w_start;
 	int w_len;
@@ -65,16 +65,16 @@ char **ft_split(char const *s, char c)
 	return (NULL);
 }
 
-int main()
-{
-	char **test;
-	int i;
+// int main()
+// {
+// 	char **test;
+// 	int i;
 
-	test = ft_split("cheycccd", 'c'); //не работает без разделителей
-	for (i = 0; i < 3; i++)
-	{
-		printf("%s\n", test[i]);
-	}
-	//printf("%s", test[0]);
-	return 0;
-}
+// 	test = ft_split("cheycccd", 'c');
+// 	for (i = 0; i < 3; i++)
+// 	{
+// 		printf("%s\n", test[i]);
+// 	}
+// 	//printf("%s", test[0]);
+// 	return 0;
+// }
