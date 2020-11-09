@@ -1,34 +1,28 @@
 #include "libft.h"
-#include <string.h>
-#include <stdio.h>
 
-size_t	ft_strlcat(char *dst, const char *src, size_t dstsize)
+size_t ft_strlcat(char *dst, const char *src, size_t dstsize)
 {
-	char		*new_dst;
-	const char	*new_src;
-	size_t		dst_len;
-	
+	char *new_dst;
+	const char *new_src;
+	size_t dst_len;
+	size_t src_len;
+
 	new_dst = dst;
 	new_src = src;
-
 	dst_len = ft_strlen(dst);
+	src_len = ft_strlen(src);
 	new_dst = new_dst + dst_len;
-
-	if (dstsize < ft_strlen(dst)) //<= ?
-		return (ft_strlen(src) + dstsize);
-	dstsize = dstsize - ft_strlen(dst) - 1;
-
-	ft_memcpy(new_dst, new_src, dstsize);
-
-	//dst[ft_strlen(dst)] = '\0'; // эээээээээээ, надо прочекать еще раз, но все работает
+	if (dstsize < dst_len)
+		return (src_len + dstsize);
+	if (dstsize == dst_len)
+		return (dst_len + src_len);
+	dstsize = dstsize - dst_len - 1;
+	while (dstsize-- && src_len--)
+	{
+		*new_dst = *new_src;
+		new_dst++;
+		new_src++;
+	}
+	*new_dst = '\0';
 	return (dst_len + ft_strlen(src));
 }
-
-
-// int main (void)
-// {
-//   char a[25] = "1234";
-//   char b[7] = "qwerty";
-//   printf("%lu\n", strlcat(a, b, 4));
-//   printf("%s\n", a);
-// }

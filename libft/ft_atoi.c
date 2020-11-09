@@ -23,13 +23,12 @@ int ft_atoi(const char *str)
 	sign = 1;
 	while (is_space(*str))
 		str++;
-	if (*str == '-')
+	if (*str == '-' || *str == '+')
 	{
-		sign = -1;
+		if (*str == '-')
+			sign = -1;
 		str++;
 	}
-	if (*str == '+')
-		str++;
 	while (is_num(*str))
 	{
 		res = res * 10 + *str - '0';

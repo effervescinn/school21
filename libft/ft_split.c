@@ -1,4 +1,5 @@
 #include "libft.h"
+#include <string.h>
 
 static int count_words(char const *s, char c) //считаем количество слов
 {
@@ -33,11 +34,11 @@ static void push_strs(const char *s, char c, char **arr, int w_q) //записы
 	while (*s && w_q--)
 	{
 		w_len = 0;
-		while (*s == 'c' && *s)
+		while (*s == c && *s)
 			s++;
 		if (*s)
 			w_start = (char *)s;
-		while (*s != 'c' && *s)
+		while (*s != c && *s)
 		{
 			w_len++;
 			s++;
@@ -57,6 +58,7 @@ char **ft_split(char const *s, char c)
 	int w_q;
 
 	w_q = count_words(s, c); //считаем количество слов чтобы выделить нужое количество памяти
+
 	if ((arr = (char **)malloc(w_q * sizeof(char *) + sizeof(char *))))
 	{
 		push_strs(s, c, arr, w_q);
@@ -64,17 +66,3 @@ char **ft_split(char const *s, char c)
 	}
 	return (NULL);
 }
-
-// int main()
-// {
-// 	char **test;
-// 	int i;
-
-// 	test = ft_split("cheycccd", 'c');
-// 	for (i = 0; i < 3; i++)
-// 	{
-// 		printf("%s\n", test[i]);
-// 	}
-// 	//printf("%s", test[0]);
-// 	return 0;
-// }
