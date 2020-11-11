@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_putnbr_fd.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lnorcros <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/11/11 13:48:58 by lnorcros          #+#    #+#             */
+/*   Updated: 2020/11/11 13:49:00 by lnorcros         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "libft.h"
 
 static int	ft_divider(long long int c)
@@ -7,13 +19,13 @@ static int	ft_divider(long long int c)
 	divider = 1;
 	while (c > 9)
 	{
-		c/= 10;
+		c /= 10;
 		divider *= 10;
 	}
 	return (divider);
 }
 
-void ft_putnbr_fd(int n, int fd)
+void		ft_putnbr_fd(int n, int fd)
 {
 	long long int	new_n;
 	long long int	div;

@@ -1,23 +1,36 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_atoi.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lnorcros <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/11/11 13:47:02 by lnorcros          #+#    #+#             */
+/*   Updated: 2020/11/11 13:47:04 by lnorcros         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "libft.h"
 
-static int is_space(const char s)
+static int	is_space(const char s)
 {
-	if (s == ' ' || s == '\n' || s == '\t' || s == '\v' || s == '\f' || s == '\r')
+	if (s == ' ' || s == '\n' || s == '\t'
+	|| s == '\v' || s == '\f' || s == '\r')
 		return (1);
 	return (0);
 }
 
-static int is_num(const char s)
+static int	is_num(const char s)
 {
 	if (s >= '0' && s <= '9')
 		return (1);
 	return (0);
 }
 
-int ft_atoi(const char *str)
+int			ft_atoi(const char *str)
 {
-	unsigned long long int res;
-	int sign;
+	unsigned long long int	res;
+	int						sign;
 
 	res = 0;
 	sign = 1;
