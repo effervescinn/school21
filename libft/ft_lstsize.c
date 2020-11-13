@@ -1,14 +1,28 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_lstsize.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lnorcros <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/11/13 19:20:38 by lnorcros          #+#    #+#             */
+/*   Updated: 2020/11/13 19:20:40 by lnorcros         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "libft.h"
 
-int ft_lstsize(t_list *lst)
+int	ft_lstsize(t_list *lst)
 {
-	int	size;
+	int		size;
+	t_list	*p;
 
 	size = 0;
-	while (lst)
+	p = lst;
+	while (p)
 	{
+		p = p->next;
 		size++;
-		lst = lst->next;
 	}
 	return (size);
 }
