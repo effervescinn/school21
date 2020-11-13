@@ -68,7 +68,7 @@ static int	push_strs(const char *s, char c, char **arr, int w_q)
 			w_len++;
 			s++;
 		}
-		if (free_all(arr, i, w_len) == 1)
+		if ((free_all(arr, i, w_len) == 1))
 			return (1);
 		ft_strlcpy(arr[i], w_start, w_len + 1);
 		i++;
