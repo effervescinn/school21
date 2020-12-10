@@ -1,52 +1,81 @@
-// return:
-// 1 : A line has been read
-// 0 : EOF has been reached
-// -1 : An error happened
 #include "get_next_line.h"
 
-// 12345
-// abc
-
-void	get_line_and_rest(char *new_line, char *rest, char **line)
+char	*check_rest(char *rest, char **line)
 {
-	int	i;
+	char *p;
 
-	i = 0;
-	while (new_line[i] != '\n')
-		i++;
-	*line = ft_substr(new_line, 0, i);
-	rest = ft_strdup(new_line + i + 1);
+	p = NULL;
+	if (rest)
+	{
+		if ((p = ft_strchr(rest, '\n')))
+		{
+			*p = '\0';
+			*line = ft_strdup(rest);
+			p++;
+			ft_strcpy(rest, p);
+			//rest += ft_strlen(rest) + 1;
+		}
+		else
+		{
+			*line = ft_strdup(rest);
+			// free(rest);
+			// rest = NULL;
+		}
+	}
+	else
+	{
+		*line = (char*)malloc(sizeof(char));
+		**line = '\0';
+	}
+	return (p);
 }
 
-int get_next_line(int fd, char **line)
+int	get_next_line(int fd, char **line)
 {
-	//static int	fd_arr[1024];
-	int 			ret;
-	char			buf[BUFFER_SIZE + 1];
- 	static char		*rest;
-	char			*new_line;
+	static char *rest;
+	char		buf[BUFFER_SIZE + 1];
+	int			ret;
+	char		*p;
+	//char		*tmp;
 
-	if (fd < 0 || line == NULL)
+	if (fd < 0 || BUFFER_SIZE < 0)
 		return (-1);
-	while ((ret = read(fd, buf, BUFFER_SIZE)))
+	p = check_rest(rest, line);
+	while (!p && (ret = read(fd, buf, BUFFER_SIZE)))
 	{
 		buf[ret] = '\0';
-		if (ft_strchr(buf, '\n'))
+		if ((p = ft_strchr(buf, '\n')))
 		{
-			new_line = ft_strjoin(rest, buf);
-			get_line_and_rest(new_line, rest, line);
-			free(new_line);
+			*p = '\0';
+			p++;
+			rest = ft_strdup(p);
 		}
-		*line = ft_strjoin(rest, buf);
+		//tmp = *line;
+		*line = ft_strjoin(*line, buf);
+		//free(tmp);
+	}
+	if (ret < 0)
+		return (-1);
+	if (ret == 0 && **line == '\0')
+	{
+		free(*line);
+		return (0);
 	}
 	return (1);
 }
 
 int main() {
 	int fd;
-	char **line;
-
+	char *line;
+	//char *rest = "bb\0ccc\nddd\0";
+	// char *p; p = &(rest[3]);
+	//ft_strcpy(rest, p);
+	// rest += ft_strlen(rest) + 1;
+	// printf("%s", rest);
 	fd = open("test1.txt", O_RDWR);
-	get_next_line(fd, line);
+	while (get_next_line(fd, &line) > 0)
+	{
+		printf("%s\n", line);
+	}
 	return 0;
 }

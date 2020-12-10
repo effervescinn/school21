@@ -93,41 +93,6 @@ size_t	ft_strlen(const char *str)
 	return (i);
 }
 
-t_list	*ft_lstnew(void *content)
-{
-	t_list	*newlist;
-
-	if (!(newlist = (t_list*)malloc(sizeof(t_list))))
-		return (NULL);
-	newlist->content = content;
-	newlist->next = NULL;
-	return (newlist);
-}
-
-char	*ft_substr(char const *s, unsigned int start, size_t len)
-{
-	char	*substr;
-	size_t	i;
-
-	if (s == NULL)
-		return (NULL);
-	if (len >= ft_strlen(s + start))
-		len = ft_strlen(s + start);
-	if (ft_strlen(s) <= start)
-		len = 0;
-	if (!(substr = (char *)malloc((len + 1) * sizeof(*s))))
-		return (NULL);
-	i = 0;
-	while (s[start] && i < len)
-	{
-		substr[i] = s[start];
-		start++;
-		i++;
-	}
-	substr[i] = '\0';
-	return (substr);
-}
-
 char	*ft_strdup(const char *s1)
 {
 	char	*ptr;
@@ -160,22 +125,41 @@ void	*ft_memcpy(void *dest, const void *src, size_t n)
 	return (dest);
 }
 
-size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize)
+void ft_strcpy(char *dst, const char *src)
 {
-	const char	*new_src;
-
-	new_src = src;
-	if (dst == NULL && src == NULL)
-		return (0);
-	if (dstsize == 0)
-		return (ft_strlen(src));
-	while (*new_src && (dstsize - 1))
+	if (*src == '\0')
+		*dst = '\0';
+	else
 	{
-		*dst = *new_src;
-		dst++;
-		new_src++;
-		dstsize--;
+		while (*src)
+		{
+			*dst = *src;
+			dst++;
+			src++;
+		}
+		while (*dst)
+		{
+			*dst = '\0';
+		}
 	}
-	*dst = '\0';
-	return (ft_strlen(src));
 }
+
+// size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize)
+// {
+// 	const char	*new_src;
+
+// 	new_src = src;
+// 	if (dst == NULL && src == NULL)
+// 		return (0);
+// 	if (dstsize == 0)
+// 		return (ft_strlen(src));
+// 	while (*new_src && (dstsize - 1))
+// 	{
+// 		*dst = *new_src;
+// 		dst++;
+// 		new_src++;
+// 		dstsize--;
+// 	}
+// 	*dst = '\0';
+// 	return (ft_strlen(src));
+// }
