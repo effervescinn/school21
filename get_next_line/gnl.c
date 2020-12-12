@@ -1,28 +1,31 @@
 #include "get_next_line.h"
 
-char	*check_rest(char *rest, char **line)
+int check_rest(char **rest, char **line)
 {
 	char *p;
 
-	p = NULL;
-	if (rest)
+	if (*rest)
 	{
-		if ((p = strchr(rest, '\n')))
+		if ((p = ft_strchr(*rest, '\n')))
 		{
 			*p = '\0';
-			*line = ft_strdup(rest);
-			p++;
-			ft_strlcpy(rest, p, ft_strlen(p));
+			*line = ft_strdup(*rest);
+			*rest = *rest + ft_strlen(*rest) + 1;
+			return (0);
 		}
 		else
 		{
-			*line = ft_strdup(rest);
-			//ft_strlcr(rest);
+			*line = ft_strdup(*rest);
+			*rest = NULL;
+			return (1);
 		}
 	}
 	else
-		*line = "";
-	return (p);
+	{
+		*line = (char *)malloc(sizeof(char));
+		**line = '\0';
+		return (1);
+	}
 }
 
 int	get_next_line(int fd, char **line)
@@ -31,10 +34,13 @@ int	get_next_line(int fd, char **line)
 	char		buf[BUFFER_SIZE + 1];
 	int			ret;
 	char		*p;
-	//char		*tmp;
+	char		*tmp;
+	int			c_r;
 
-	p = check_rest(rest, line);
-	while (!p && (ret = read(fd, buf, BUFFER_SIZE)))
+	if (fd < 0 || BUFFER_SIZE <= 0)
+		return (-1);
+	c_r = check_rest(&rest, line);
+	while (c_r && (ret = read(fd, buf, BUFFER_SIZE)))
 	{
 		buf[ret] = '\0';
 		if ((p = ft_strchr(buf, '\n')))
@@ -42,12 +48,22 @@ int	get_next_line(int fd, char **line)
 			*p = '\0';
 			p++;
 			rest = ft_strdup(p);
+			tmp = *line;
+			*line = ft_strjoin(tmp, buf);
+			free(tmp);
+			return (1);
 		}
-		//tmp = *line;
-		*line = ft_strjoin(*line, buf);
-		//free(tmp);
+		tmp = *line;
+		*line = ft_strjoin(tmp, buf);
+		free(tmp);
 	}
-	return (0);
+	if (ret < 0)
+		return (-1);
+	if (ret == 0 && rest == NULL)
+	{
+		return (0);
+	}
+	return (1);
 }
 
 int main() {
@@ -55,14 +71,7 @@ int main() {
 	char *line;
 
 	fd = open("test1.txt", O_RDWR);
-	// while (get_next_line(fd, &line))
-	// {
-	// 	printf("%s", line);
-	// }
-	get_next_line(fd, &line);
-	printf("%s\n", line);
-	get_next_line(fd, &line);
-	printf("%s\n", line);
-	//printf("%s", &line);
+	while (get_next_line(fd, &line) > 0)
+		printf("%s\n", line);
 	return 0;
 }
