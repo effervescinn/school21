@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lnorcros <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/12/15 17:33:39 by lnorcros          #+#    #+#             */
+/*   Updated: 2020/12/15 17:33:41 by lnorcros         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "get_next_line.h"
 
-int check_rest(char **rest, char **line)
+int	check_rest(char **rest, char **line)
 {
 	char *p;
 
@@ -27,7 +39,7 @@ int check_rest(char **rest, char **line)
 	return (1);
 }
 
-int write_line(char **rest, char **line, char **buf, int *c_r)
+int	write_line(char **rest, char **line, char **buf, int *c_r)
 {
 	char		*p;
 	char		*tmp;
@@ -62,7 +74,7 @@ int	get_next_line(int fd, char **line)
 		return (-1);
 	if (!(*line = (char *)malloc(sizeof(char))))
 		return (-1);
-	if(!(buf = (char*)malloc((BUFFER_SIZE + 1) * sizeof(char))))
+	if (!(buf = (char*)malloc((BUFFER_SIZE + 1) * sizeof(char))))
 		return (-1);
 	**line = '\0';
 	c_r = check_rest(&rest[fd], line);
