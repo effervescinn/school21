@@ -1,76 +1,90 @@
 #include "get_next_line.h"
 
-char	*check_rest(char **rest, char **line)
+int check_rest(char **rest, char **line)
 {
 	char *p;
 
-	p = NULL;
 	if (*rest)
 	{
+		free(*line);
 		if ((p = ft_strchr(*rest, '\n')))
 		{
 			*p = '\0';
-			*line = ft_strdup(*rest);
+			if (!(*line = ft_strdup(*rest)))
+				return (-1);
 			p++;
 			ft_strcpy(*rest, p);
+			return (0);
 		}
 		else
 		{
-			*line = ft_strdup(*rest);
-			//free(*rest);
+			if (!(*line = ft_strdup(*rest)))
+				return (-1);
+			free(*rest);
 			*rest = NULL;
 		}
 	}
-	else
-	{
-		*line = (char*)malloc(sizeof(char));
-		**line = '\0';
-	}
-	return (p);
+		return (1);
 }
 
 int	get_next_line(int fd, char **line)
 {
-	static char *rest;
-	char		buf[BUFFER_SIZE + 1];
+	static char *rest[1024];
+	char		*buf;
 	int			ret;
 	char		*p;
 	char		*tmp;
+	int			c_r;
 
-	if (fd < 0 || BUFFER_SIZE <= 0)
+	if (fd < 0 || BUFFER_SIZE <= 0 || !line || fd > 1023 ||
+	(read(fd, NULL, 0)) == -1)
 		return (-1);
-	p = check_rest(&rest, line);
-	while (!p && (ret = read(fd, buf, BUFFER_SIZE)))
+	if (!(*line = (char *)malloc(sizeof(char))))
+		return (-1);
+	**line = '\0';
+	c_r = check_rest(&rest[fd], line);
+	if(!(buf = (char*)malloc((BUFFER_SIZE + 1) * sizeof(char))) || c_r < 0)
+		return (-1);
+	while (c_r > 0 && (ret = read(fd, buf, BUFFER_SIZE > 0)))
 	{
 		buf[ret] = '\0';
 		if ((p = ft_strchr(buf, '\n')))
 		{
 			*p = '\0';
 			p++;
-			rest = ft_strdup(p);
+			if (!(rest[fd] = ft_strdup(p)))
+				return (-1);
+			c_r = 0;
 		}
 		tmp = *line;
-		*line = ft_strjoin(tmp, buf);
+		if (!(*line = ft_strjoin(tmp, buf)))
+			{
+				free(tmp);
+				return (-1);
+			}
 		free(tmp);
 	}
-	if (ret < 0)
+	free(buf);
+	if (ret < 0 || c_r < 0)
 		return (-1);
-	if (ret == 0 && rest == NULL)
-	{
-		return (0);
-	}
-	return (1);
+	return ((ret == 0 && rest[fd] == NULL) ? 0 : 1);
 }
 
-int main() {
-	int fd;
-	char *line;
+// int main() {
+// 	int fd;
+// 	int fd2;
+// 	char *line;
 
-	fd = open("test1.txt", O_RDWR);
-	while (get_next_line(fd, &line) > 0)
-	{
-		printf("%s\n", line);
-	}
-
-	return 0;
-}
+// 	fd = open("test1.txt", O_RDWR);
+// 	fd2 = open("test2.txt", O_RDWR);
+// 	while (get_next_line(fd, &line) > 0)
+// 		{
+// 			printf("%s\n", line);
+// 			free(line);
+// 		}
+// 	printf("%s", line);
+// 	free(line);
+// 	get_next_line(fd2, &line);
+// 	printf("%s\n", line);
+// 	//getc(stdin);
+// }
