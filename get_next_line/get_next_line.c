@@ -14,7 +14,7 @@
 
 int	check_rest(char **rest, char **line)
 {
-	char *p;
+	char	*p;
 
 	if (*rest)
 	{
@@ -41,8 +41,8 @@ int	check_rest(char **rest, char **line)
 
 int	write_line(char **rest, char **line, char **buf, int *c_r)
 {
-	char		*p;
-	char		*tmp;
+	char	*p;
+	char	*tmp;
 
 	if ((p = ft_strchr(*buf, '\n')))
 	{
